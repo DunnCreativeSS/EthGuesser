@@ -7,6 +7,8 @@ CREATE TABLE test.testing
     bal varchar(64)
 );
 
+use test;
+
 ALTER TABLE testing CHANGE id id INT(10)AUTO_INCREMENT PRIMARY KEY;
 
 
