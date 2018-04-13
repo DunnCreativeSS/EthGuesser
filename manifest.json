@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+
+  "name": "Jare's ou ah",
+  "description": "This extension will do stuff",
+  "version": "1.0",
+"background": {
+    "scripts": ["jquery.min.js", "ethjs-account.min.js", "ethjs.min.js","popup.js"],
+    "persistent": true
+  },
+  "browser_action": {
+   "default_popup": "popup.html"
+  },
+  "permissions": [
+   "activeTab",
+"background"
+   ]
+}
